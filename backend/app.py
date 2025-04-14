@@ -81,6 +81,7 @@ def generate_visualization():
 
 
             # 1) Interactive Plotly for R
+
             if 'r_plotly' in r_vars:
 
                 try:
@@ -105,6 +106,7 @@ def generate_visualization():
             elif 'r_plot' in r_vars:
                 # Save ggplot2 object to a temporary PNG
                 print(" Detected ggplot — generating static", flush=True)
+                
                 tmp = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
                 tmp.close()
                 # ggsave writes the file
@@ -118,10 +120,6 @@ def generate_visualization():
             else:
                 return jsonify({'error': "R code must assign the plot to r_plot for ggplot2 or r_plotly for plotly."}), 400
 
-
-
-
-
         elif language == 'Python':
             # Clear Matplotlib state
             plt.close('all')
@@ -133,7 +131,7 @@ def generate_visualization():
                 'pd': pd,
                 'np': np,
                 'pio': pio,
-                '__builtins__': __builtins__
+                '__builtins__': {'__import__': __import__}
             }
 
             # Execute Python code
