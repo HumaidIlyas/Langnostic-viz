@@ -5,6 +5,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Plot from 'react-plotly.js';
 import './App.css';
+import AceEditor from 'react-ace';
+import 'ace-builds/src-noconflict/mode-python';
+import 'ace-builds/src-noconflict/mode-r';
+import 'ace-builds/src-noconflict/theme-monokai';
 
 
 function App() {
@@ -92,13 +96,34 @@ function App() {
 
 
        <div className="form-row">
-         <textarea
-           className="code-textarea"
-           placeholder="Enter your Python or R code here..."
-           value={code}
-           onChange={e => setCode(e.target.value)}
-         />
+
+       <AceEditor
+        mode={language.toLowerCase()}
+        theme="monokai"
+        name="code-editor"
+        onChange={setCode}
+        value={code}
+        fontSize={14}
+        showPrintMargin={false}
+        showGutter={true}
+        highlightActiveLine={true}
+        width="100%"
+        height="300px"
+        setOptions={{
+          showLineNumbers: true,
+          tabSize: 2,
+          // enableBasicAutocompletion: true,
+          // enableLiveAutocompletion: true,
+          // enableSnippets: true,
+        }}
+      />
+
        </div>
+       {language === 'R' && (
+       <div className="hint-msg">
+      For R code, please assign your ggplot2 plot to <code>r_plot</code> or your plotly plot to <code>r_plotly</code>.
+      </div>
+         )}
 
 
        <div className="form-row button-row">
